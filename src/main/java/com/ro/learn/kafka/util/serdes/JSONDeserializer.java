@@ -12,13 +12,12 @@ public class JSONDeserializer<T> implements Deserializer<T> {
     public static final String KEY_CLASS_NAME_CONFIG = "key.class.name";
     public static final String VALUE_CLASS_NAME_CONFIG = "value.class.name";
 
+    public JSONDeserializer(Class<T> clazz) {
+        this.clazz = clazz;
+    }
+
     @Override
     public void configure(Map configs, boolean isKey) {
-        if (isKey) {
-            clazz = (Class<T>) configs.get(KEY_CLASS_NAME_CONFIG);
-        } else {
-            clazz = (Class<T>) configs.get(VALUE_CLASS_NAME_CONFIG);
-        }
     }
 
     @Override
@@ -27,7 +26,8 @@ public class JSONDeserializer<T> implements Deserializer<T> {
             return null;
         }
         try {
-            return objectMapper.readValue(message, clazz);
+            Object o = objectMapper.readValue(message, clazz);
+            return (T) o;
         } catch (Exception e) {
             throw new SerializationException(e);
         }

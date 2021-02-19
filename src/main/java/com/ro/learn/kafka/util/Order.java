@@ -60,4 +60,17 @@ public class Order implements JSONSerdeCompatible {
     public void setDeliveryType(int deliveryType) {
         this.deliveryType = deliveryType;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("orderId=").append(orderId);
+        sb.append(", createdTime=").append(createdTime);
+        sb.append(", orderLines=").append(orderLines);
+        sb.append(", customerId=").append(customerId);
+        sb.append(", valid=").append(valid);
+        sb.append(", deliveryType=").append(deliveryType);
+        sb.append('}');
+        return sb.toString();
+    }
 }

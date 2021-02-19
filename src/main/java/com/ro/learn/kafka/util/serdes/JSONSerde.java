@@ -23,12 +23,13 @@ public class JSONSerde<T> implements Serializer<T>, Deserializer<T>, Serde<T> {
 
     @Override
     public T deserialize(String s, byte[] message) {
-        if (message == null) {
+        if (message == null || message.length < 10) {
             return null;
         }
-
+        System.out.println("Before deserialize : " +  new String(message));
         try {
-            return (T) objectMapper.readValue(message, clazz);
+            Object o = objectMapper.readValue(new String(message), clazz);
+            return (T) o;
         } catch (final IOException e) {
             throw new SerializationException(e);
         }
@@ -41,7 +42,9 @@ public class JSONSerde<T> implements Serializer<T>, Deserializer<T>, Serde<T> {
         }
 
         try {
-            return objectMapper.writeValueAsBytes(message);
+            byte[] str = objectMapper.writeValueAsString(message).getBytes();
+            System.out.println("After serialize : " + new String(str));
+            return str;
         } catch (final Exception e) {
             throw new SerializationException("Error serializing JSON message", e);
         }

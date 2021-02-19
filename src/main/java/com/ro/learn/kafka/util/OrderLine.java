@@ -39,4 +39,15 @@ public class OrderLine implements JSONSerdeCompatible {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("lineId=").append(lineId);
+        sb.append(", productId=").append(productId);
+        sb.append(", quantity=").append(quantity);
+        sb.append(", price=").append(price);
+        sb.append('}');
+        return sb.toString();
+    }
 }
